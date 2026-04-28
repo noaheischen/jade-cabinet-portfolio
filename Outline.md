@@ -1,6 +1,6 @@
 # jade-cabinet-portfolio
 
-Portfolio Rationale Outline — Noah Eischen, INFO 303A
+Portfolio Rationale Outline — Noah Eischen, INFO 303A, Spring 2026
 Central Argument: The same concept, when explored through language, containment, and meaning, takes a different shape depending on its medium, as demonstrated by the webpage.
 I. Introduction
 
