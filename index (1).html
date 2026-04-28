@@ -1,0 +1,531 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Jade Cabinet — Portfolio</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=Jost:wght@300;400&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+  :root {
+    --cream: #f5f0e8;
+    --fog: #e8e4dc;
+    --stone: #c8c4bc;
+    --mist: #d8e4e0;
+    --ink: #2c2820;
+    --ink-light: #6b6560;
+    --ink-faint: #a8a4a0;
+    --cabinet: #b8c4b0;
+    --cabinet-dark: #8a9882;
+    --serif: 'Cormorant Garamond', Georgia, serif;
+    --sans: 'Jost', sans-serif;
+  }
+
+  html { scroll-behavior: smooth; scroll-snap-type: y mandatory; }
+
+  body {
+    background: var(--cream);
+    color: var(--ink);
+    font-family: var(--serif);
+    overflow-x: hidden;
+  }
+
+  /* NAV DOTS */
+  .nav {
+    position: fixed;
+    right: 2rem;
+    top: 50%;
+    transform: translateY(-50%);
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    z-index: 100;
+  }
+
+  .dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--ink-faint);
+    cursor: pointer;
+    transition: all 0.4s ease;
+    border: none;
+  }
+
+  .dot.active {
+    background: var(--ink);
+    transform: scale(1.4);
+  }
+
+  /* SECTIONS */
+  .section {
+    min-height: 100vh;
+    scroll-snap-align: start;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 5rem 3rem;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .section-tag {
+    position: absolute;
+    top: 2.5rem;
+    left: 3rem;
+    font-family: var(--sans);
+    font-size: 10px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--ink-faint);
+  }
+
+  /* ── SECTION 1: AERIAL ── */
+  #s1 { background: var(--mist); }
+
+  .clouds {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+  }
+
+  .cloud {
+    position: absolute;
+    background: rgba(255,255,255,0.55);
+    border-radius: 80px;
+    filter: blur(18px);
+    animation: cloudDrift linear infinite;
+  }
+
+  @keyframes cloudDrift {
+    0% { transform: translateX(-20px); opacity: 0.4; }
+    50% { transform: translateX(20px); opacity: 0.7; }
+    100% { transform: translateX(-20px); opacity: 0.4; }
+  }
+
+  .drift-text {
+    position: absolute;
+    font-family: var(--serif);
+    font-style: italic;
+    font-size: 13px;
+    color: rgba(44,40,32,0.25);
+    white-space: nowrap;
+    animation: floatUp linear infinite;
+    pointer-events: none;
+  }
+
+  @keyframes floatUp {
+    0%   { transform: translateY(30px); opacity: 0; }
+    15%  { opacity: 1; }
+    85%  { opacity: 0.4; }
+    100% { transform: translateY(-80px); opacity: 0; }
+  }
+
+  .hero {
+    text-align: center;
+    z-index: 2;
+    max-width: 560px;
+  }
+
+  .hero h1 {
+    font-size: clamp(48px, 8vw, 80px);
+    font-weight: 300;
+    letter-spacing: -1px;
+    line-height: 1.1;
+    color: var(--ink);
+    margin-bottom: 1.5rem;
+  }
+
+  .hero h1 em {
+    font-style: italic;
+    color: var(--ink);
+  }
+
+  .rule {
+    width: 40px;
+    height: 1px;
+    background: var(--stone);
+    margin: 1.5rem auto;
+  }
+
+  .hero p {
+    font-size: 18px;
+    font-style: italic;
+    font-weight: 300;
+    color: var(--ink-light);
+    line-height: 1.8;
+  }
+
+  .hero .byline {
+    margin-top: 2rem;
+    font-family: var(--sans);
+    font-size: 11px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--ink-faint);
+  }
+
+  /* ── SECTION 2: ESSAY ── */
+  #s2 { background: var(--cream); }
+
+  .essay-block {
+    max-width: 580px;
+    z-index: 2;
+  }
+
+  .essay-block blockquote {
+    font-size: clamp(22px, 3.5vw, 32px);
+    font-weight: 300;
+    font-style: italic;
+    line-height: 1.6;
+    color: var(--ink);
+    text-align: center;
+    margin-bottom: 2rem;
+  }
+
+  .essay-block .source {
+    font-family: var(--sans);
+    font-size: 11px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--ink-faint);
+    text-align: center;
+    margin-top: 1rem;
+  }
+
+  .essay-block .pull {
+    font-size: 16px;
+    font-style: italic;
+    color: var(--ink-light);
+    line-height: 1.9;
+    text-align: center;
+    border-top: 0.5px solid var(--stone);
+    border-bottom: 0.5px solid var(--stone);
+    padding: 1.5rem 0;
+    margin-top: 2rem;
+  }
+
+  /* ── SECTION 3: COLLAGE ── */
+  #s3 { background: var(--fog); }
+
+  .collage-wrap {
+    z-index: 2;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+    max-width: 600px;
+    width: 100%;
+  }
+
+  .cabinet-mock {
+    width: 340px;
+    height: 280px;
+    position: relative;
+    display: flex;
+    overflow: visible;
+  }
+
+  .cabinet-body {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 60%;
+    height: 100%;
+    background: #a8b8a0;
+    border: 2px solid var(--cabinet-dark);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    padding: 0.5rem 0.75rem;
+    z-index: 1;
+    box-sizing: border-box;
+  }
+
+  .shelf {
+    width: 100%;
+    height: 3px;
+    background: var(--cabinet-dark);
+    border-radius: 1px;
+    flex-shrink: 0;
+  }
+
+  .shelf-space {
+    flex: 1;
+  }
+
+  .door-left {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 22%;
+    height: 100%;
+    background: #b8c8b0;
+    border: 2px solid var(--cabinet-dark);
+    z-index: 2;
+    transform-origin: right center;
+    transform: perspective(400px) rotateY(-40deg);
+  }
+
+  .door-right {
+    position: absolute;
+    right: 0;
+    top: 0;
+    width: 22%;
+    height: 100%;
+    background: #b8c8b0;
+    border: 2px solid var(--cabinet-dark);
+    z-index: 2;
+    transform-origin: left center;
+    transform: perspective(400px) rotateY(40deg);
+  }
+
+  .door-handle-left {
+    position: absolute;
+    left: 6px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 3px;
+    height: 20px;
+    background: var(--cabinet-dark);
+    border-radius: 2px;
+  }
+
+  .door-handle-right {
+    position: absolute;
+    right: 6px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 3px;
+    height: 20px;
+    background: var(--cabinet-dark);
+    border-radius: 2px;
+  }
+
+  .cabinet-text {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    top: 45%;
+    width: 55%;
+    z-index: 3;
+    pointer-events: none;
+    white-space: nowrap;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0;
+  }
+
+  .cabinet-text .word-line {
+    font-family: var(--serif);
+    font-style: italic;
+    font-size: 13px;
+    color: rgba(255,255,255,0.85);
+    line-height: 1;
+    padding: 6px 0;
+    display: block;
+    text-align: center;
+  }
+
+  .cabinet-text .word-line.falling {
+    color: rgba(255,255,255,0.7);
+    transform: translateY(4px);
+  }
+
+  .cabinet-text .word-line.more-falling {
+    color: rgba(255,255,255,0.55);
+    transform: translateY(10px);
+  }
+
+  .cabinet-text .word-line.most-falling {
+    color: rgba(255,255,255,0.35);
+    transform: translateY(18px);
+  }
+
+  .escaping {
+    font-family: var(--serif);
+    font-size: 26px;
+    font-weight: 300;
+    letter-spacing: 5px;
+    color: rgba(44,40,32,0.3);
+    text-align: center;
+    margin-top: 0;
+  }
+
+  .collage-caption {
+    font-family: var(--sans);
+    font-size: 11px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--ink-faint);
+    text-align: center;
+  }
+
+  .collage-subquote {
+    font-family: var(--serif);
+    font-style: italic;
+    font-size: 16px;
+    color: var(--ink-light);
+    text-align: center;
+    line-height: 1.8;
+    max-width: 420px;
+  }
+
+  /* ── SECTION 4: CONTAINED ── */
+  #s4 { background: var(--stone); }
+
+  .reflection-block {
+    max-width: 560px;
+    z-index: 2;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1.5rem;
+  }
+
+  .reflection-card {
+    background: rgba(245,240,232,0.5);
+    border: 0.5px solid rgba(44,40,32,0.15);
+    border-radius: 6px;
+    padding: 2rem 2.5rem;
+    width: 100%;
+  }
+
+  .reflection-card p {
+    font-size: 17px;
+    font-style: italic;
+    font-weight: 300;
+    line-height: 1.9;
+    color: var(--ink);
+    margin-bottom: 1rem;
+  }
+
+  .reflection-card p:last-child { margin-bottom: 0; }
+
+  .final-word {
+    font-family: var(--serif);
+    font-size: 48px;
+    font-weight: 300;
+    letter-spacing: 8px;
+    color: rgba(44,40,32,0.18);
+    text-align: center;
+    margin-top: 1rem;
+  }
+</style>
+</head>
+<body>
+
+<nav class="nav" aria-label="Section navigation">
+  <button class="dot active" onclick="scrollTo(0)" aria-label="Section 1"></button>
+  <button class="dot" onclick="scrollTo(1)" aria-label="Section 2"></button>
+  <button class="dot" onclick="scrollTo(2)" aria-label="Section 3"></button>
+  <button class="dot" onclick="scrollTo(3)" aria-label="Section 4"></button>
+</nav>
+
+<!-- SECTION 1: AERIAL -->
+<section class="section" id="s1">
+  <span class="section-tag">aerial</span>
+
+  <div class="clouds">
+    <div class="cloud" style="width:220px;height:70px;top:12%;left:4%;animation-duration:9s;"></div>
+    <div class="cloud" style="width:160px;height:55px;top:18%;right:6%;animation-duration:12s;animation-delay:3s;"></div>
+    <div class="cloud" style="width:100px;height:40px;bottom:22%;left:18%;animation-duration:10s;animation-delay:6s;"></div>
+    <div class="cloud" style="width:140px;height:50px;bottom:28%;right:10%;animation-duration:14s;animation-delay:1s;"></div>
+  </div>
+
+  <div class="drift-text" style="top:35%;left:8%;animation-duration:10s;animation-delay:0s;">language, when aired, is alive</div>
+  <div class="drift-text" style="top:55%;right:10%;animation-duration:13s;animation-delay:4s;">meaning shapeshifts</div>
+  <div class="drift-text" style="top:70%;left:22%;animation-duration:11s;animation-delay:8s;">the ephemeral resists capture</div>
+
+  <div class="hero">
+    <h1>The <em>Jade</em><br>Cabinet</h1>
+    <div class="rule"></div>
+    <p>Exploring the containment of the uncontainable through the influence of media on meaning.</p>
+    <p class="byline">Noah Eischen &nbsp;·&nbsp; INFO 303A &nbsp;·&nbsp; Spring 2026</p>
+  </div>
+</section>
+
+<!-- SECTION 2: ESSAY -->
+<section class="section" id="s2">
+  <span class="section-tag">project 1 — essay</span>
+  <div class="essay-block">
+    <blockquote>
+      "The jade cabinet serves as a metaphor for the limitations of media — an attempt to solidify the breath of language that ultimately highlights its inherent elusiveness."
+    </blockquote>
+    <div class="rule"></div>
+    <div class="pull">
+      When language becomes 'aired', it's alive and shapeshifts.<br>
+      But when it's locked up in a cabinet, it becomes a dead artifact.
+    </div>
+    <p class="source">Project 1 · Reflective Essay on Ducornet's <em>The Jade Cabinet</em></p>
+  </div>
+</section>
+
+<!-- SECTION 3: COLLAGE -->
+<section class="section" id="s3">
+  <span class="section-tag">project 2 — collage</span>
+  <div class="collage-wrap">
+    <div class="cabinet-mock">
+      <div class="cabinet-body">
+        <div class="shelf-space"></div>
+        <div class="shelf"></div>
+        <div class="shelf-space"></div>
+        <div class="shelf"></div>
+        <div class="shelf-space"></div>
+        <div class="shelf"></div>
+        <div class="shelf-space"></div>
+        <div class="shelf"></div>
+        <div class="shelf-space"></div>
+      </div>
+      <div class="door-left"><div class="door-handle-left"></div></div>
+      <div class="door-right"><div class="door-handle-right"></div></div>
+      <div class="cabinet-text">
+        <span class="word-line">the most distinct</span>
+        <span class="word-line falling">aspects of human</span>
+        <span class="word-line more-falling">existence are</span>
+        <span class="word-line most-falling">simply</span>
+      </div>
+    </div>
+    <p class="escaping">uncontainable</p>
+    <p class="collage-subquote">meaning lies in the transition between these points, not in the points themselves</p>
+    <p class="collage-caption">Project 2 · Digital Collage</p>
+  </div>
+</section>
+
+<!-- SECTION 4: CONTAINED -->
+<section class="section" id="s4">
+  <span class="section-tag">contained</span>
+  <div class="reflection-block">
+    <div class="reflection-card">
+      <p>I was intrigued by how trying to contain this information and experience inside an actual artifact would conflict, or potentially bring to light, that aerial nature.</p>
+      <p>Making the collage helped me actually experience the tension that Nikiel and I are referencing, rather than just understanding or observing it. Media don't simply carry meaning — they actively shape or change it entirely.</p>
+    </div>
+    <p class="final-word">contained.</p>
+  </div>
+</section>
+
+<script>
+  const sections = Array.from(document.querySelectorAll('.section'));
+  const dots = Array.from(document.querySelectorAll('.dot'));
+
+  function scrollTo(i) {
+    sections[i].scrollIntoView({ behavior: 'smooth' });
+  }
+
+  const obs = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        const i = sections.indexOf(e.target);
+        dots.forEach(d => d.classList.remove('active'));
+        if (dots[i]) dots[i].classList.add('active');
+      }
+    });
+  }, { threshold: 0.5 });
+
+  sections.forEach(s => obs.observe(s));
+</script>
+</body>
+</html>
